@@ -1,0 +1,22 @@
+{
+  "name": "bloccit",
+  "version": "1.0.0",
+  "description": "A Reddit-like application for users to discuss and share content",
+  "main": "\u001b[D\u001b[D\u001b[D\u001bsrc/server.js)",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julesburn/bloccit.git"
+  },
+  "keywords": [
+    "bloccit"
+  ],
+  "author": "Christine Benson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julesburn/bloccit/issues"
+  },
+  "homepage": "https://github.com/julesburn/bloccit#readme"
+}
