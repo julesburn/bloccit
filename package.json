@@ -4,7 +4,7 @@
   "description": "A Reddit-like application for users to discuss and share content",
   "main": "\u001b[D\u001b[D\u001b[D\u001bsrc/server.js)",
   "scripts": {
-    "test": "export NODE_ENV=test && jasmine"
+    "test": "set NODE_ENV=test && jasmine"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/julesburn/bloccit/issues"
   },
-  "homepage": "https://github.com/julesburn/bloccit#readme"
+  "homepage": "https://github.com/julesburn/bloccit#readme",
+  "devDependencies": {
+    "jasmine": "^3.0.0",
+    "request": "^2.83.0"
+  }
 }
