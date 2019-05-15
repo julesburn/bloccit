@@ -2,8 +2,6 @@ const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/";
 
-describe("routes : marco", () => {
-
 //#1
 
   describe("GET /", () => {
@@ -16,14 +14,16 @@ describe("routes : marco", () => {
 	    expect(res.statusCode).toBe(200);
 		done();
 		});
-	});
-//#4
-    it("should return the string 'polo'", (done) => {
+
+//#4 
+    it("should return the string polo", (done) => {
 	
-	  request.get(base (err, res, body) => {
-	  	  expect(body).toBe("polo");
-		  done();
+//#5 
+      request.get(base, (err, res, body) => {
+	    expect(body).toBe("polo");
+		done();
+	   });
 	  });
+
 	});
   });
-});

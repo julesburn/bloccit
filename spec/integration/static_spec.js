@@ -15,13 +15,7 @@ describe("routes : static", () => {
       request.get(base, (err, res, body) => {
 	    expect(res.statusCode).toBe(200);
 		done();
-		})
-	})
-
-//#4
-
-    done();
-     });
-   });
+		});
+	});
   });
 });
