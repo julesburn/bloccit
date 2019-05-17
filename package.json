@@ -4,7 +4,12 @@
   "description": "A Reddit-like application for users to discuss and share content",
   "main": "\u001b[D\u001b[D\u001b[D\u001bsrc/server.js)",
   "scripts": {
+<<<<<<< HEAD
     "test": "set NODE_ENV=test && jasmine"
+=======
+    "test": "set NODE_ENV=test && jasmine",
+	"start": "node src/server.js"
+>>>>>>> 5346e774fcc009600ea9d7c3bdcd3180a4d8bdf9
   },
   "repository": {
     "type": "git",
@@ -22,5 +27,11 @@
   "devDependencies": {
     "jasmine": "^3.0.0",
     "request": "^2.83.0"
+<<<<<<< HEAD
+=======
+  },
+  "dependencies": {
+    "express": "^4.16.2"
+>>>>>>> 5346e774fcc009600ea9d7c3bdcd3180a4d8bdf9
   }
 }
