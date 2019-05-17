@@ -6,7 +6,7 @@ describe("routes : marco", () => {
 
 //#1
 
-  describe("GET /", () => {
+  describe("GET /marco", () => {
 
 //#2
     it("should return status code 200", (done) => {
