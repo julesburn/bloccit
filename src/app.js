@@ -9,3 +9,4 @@ module.exports = app;
 
  appConfig.init();
  routeConfig.init(app);
+ process.env.megasecret;
