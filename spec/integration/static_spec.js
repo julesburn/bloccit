@@ -23,26 +23,3 @@ describe("routes : static", () => {
   });
  });
 });
-
-
-describe("routes : about", () => {
-
-  //#1
-        
-          describe("GET /about", () => {
-
-  //#2
-      it("should return status code 200 and return the string 'About Us'", (done) => {
-        
-  //#3
-      request.get(base/about, (err, res, body) => {
-      expect(res.statusCode).toBe(200);
-      expect(body).toContain("About Us");
-        
-  //#4
-        
-      done();
-     });
-   });
-  });
-});

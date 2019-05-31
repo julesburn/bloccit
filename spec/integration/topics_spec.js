@@ -32,7 +32,7 @@ describe("routes : topics", () => {
         expect(res.statusCode).toBe(200);
         expect(err).toBeNull();
         expect(body).toContain("Topics");
-        expect(body).toContain("Js Frameworks");
+        expect(body).toContain("JS Frameworks");
         done();
       });
     });

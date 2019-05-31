@@ -1,4 +1,5 @@
-const topicQuries = require("../db/queries.topics.js")
+const topicQueries = require("../db/queries.topics.js")
+
 module.exports = {
     index(req, res, next){
 
