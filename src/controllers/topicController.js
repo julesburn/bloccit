@@ -47,5 +47,14 @@ module.exports = {
                 res.redirect(303, "/topics")
             }
         });
+    },
+    edit(req, res, next){
+        topicQueries.getTopic(req.params.id, (err, topic) => {
+            if(err || topic == null){
+                res.redirect(404, "/");
+            } else {
+                res.render("topics/edit", {topic});
+            }
+        });
     }
 }
