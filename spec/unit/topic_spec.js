@@ -5,13 +5,12 @@ const Post = require("../../src/db/models").Post;
 describe("Post", () => {
 
     beforeEach((done) => {
-
         this.topic;
         this.post;
         sequelize.sync({force: true}).then((res) => {
 
             Topic.create({
-                title: "Tired of talking about space? Let's talk about jellyfish.",
+                title: "Tired of Talking About Space? Let's Talk About Jellyfish",
                 description: "A discussion about jellyfish"
             })
             .then((topic) => {
@@ -19,7 +18,7 @@ describe("Post", () => {
 
                 Post.create({
                     title: "My favorite jellyfish",
-                    body: "The immortal jellyfish is the best jellyfish ever!",
+                    body: "My favorite jellyfish is the immortal jellyfish, Turritopsis dohrnii!",
                     topicId: this.topic.id
                 })
                 .then((post) => {
@@ -77,15 +76,27 @@ describe("Post", () => {
 
 
         describe("#getPosts()", () => {
-            
+
             it("should return the associated posts", (done) => {
-    
-                this.topic.getPosts()
-                .then((associatedPosts) => {
-                    expect(associatedPosts[0].title).toBe("My favorite jellyfish");
-                    done();
-                });
-            });
-        });
+
+                Topic.create({
+                    title: "Tired of Talking About Space? Let's Talk About Jellyfish",
+                    description: "A discussion about jellyfish"
+                })
+
+                Post.create({
+                    title: "My favorite jellyfish",
+                    body: "My favorite jellyfish is the immortal jellyfish, Turritopsis dohrnii!",
+                    topicId: this.topic.id,
+                })
+                .then((post) => {
+                    this.topic.getPosts()
+                      .then((associatedPosts) => {
+                          expect(associatedPosts[0].title).toBe("My favorite jellyfish")
+                          done();
+                        })
+                   });
+              });
+          });
     });
     
