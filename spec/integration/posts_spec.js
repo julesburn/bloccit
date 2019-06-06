@@ -92,6 +92,34 @@ describe("routes : posts", () => {
     });
   });
 
+  describe("POST /topics/:topicId/posts/:id/destroy", () => {
+    it("should delete the post with the associated ID", (done) => {
+        expect(this.post.id).toBe(1);
+        request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+
+            Post.findById(1)
+            .then((post) => {
+                expect(err).toBeNull();
+                expect(post).toBeNull();
+                done();
+            })
+        });
+    });
+});
+
+describe("GET /topics/:topicId/posts/:id/edit", () => {
+
+    it("should render a view with an edit post form", (done) => {
+      request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Edit Post");
+        expect(body).toContain("Snowball Fighting");
+        done();
+      });
+    });
+
+  });
+
 
   describe("POST /topics/:topicId/posts/:id/update", () => {
 
