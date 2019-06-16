@@ -1,37 +1,52 @@
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
+const User = require("../../src/db/models").User;
 
 describe("Post", () => {
 
     beforeEach((done) => {
         this.topic;
         this.post;
+        this.user;
+   
         sequelize.sync({force: true}).then((res) => {
+   
+
+          User.create({
+            email: "starman@tesla.com",
+            password: "Trekkie4lyfe"
+          })
+          .then((user) => {
+            this.user = user; //store the user
+   
 
             Topic.create({
-                title: "Tired of Talking About Space? Let's Talk About Jellyfish",
-                description: "A discussion about jellyfish"
+              title: "Tired of talking about space? Let's talk about jellyfish",
+              description: "Let's talk baout jellyfish!",
+   
+
+              posts: [{
+                title: "My favorite jellyfish",
+                body: "My faovirite jellyfish is the immortal jellyfish!",
+                userId: this.user.id
+              }]
+            }, {
+   
+
+              include: {
+                model: Post,
+                as: "posts"
+              }
             })
             .then((topic) => {
-                this.topic = topic;
-
-                Post.create({
-                    title: "My favorite jellyfish",
-                    body: "My favorite jellyfish is the immortal jellyfish, Turritopsis dohrnii!",
-                    topicId: this.topic.id
-                })
-                .then((post) => {
-                    this.post = post;
-                    done();
-                });
+              this.topic = topic; //store the topic
+              this.post = topic.posts[0]; //store the post
+              done();
             })
-            .catch((err) => {
-                console.log(err);
-                done();
-            });
+          })
         });
-    });
+      });
 
     describe("#create()", () => {
 
@@ -88,6 +103,7 @@ describe("Post", () => {
                     title: "My favorite jellyfish",
                     body: "My favorite jellyfish is the immortal jellyfish, Turritopsis dohrnii!",
                     topicId: this.topic.id,
+                    userId: this.user.id
                 })
                 .then((post) => {
                     this.topic.getPosts()
