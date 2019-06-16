@@ -117,4 +117,41 @@ describe("Post", () => {
             });
         });
     });
+
+    describe("#setUser()", () => {
+
+        it("should associate a post and a user together", (done) => {
+   
+          User.create({
+            email: "ada@example.com",
+            password: "password"
+          })
+          .then((newUser) => {
+   
+            expect(this.post.userId).toBe(this.user.id);
+   
+            this.post.setUser(newUser)
+            .then((post) => {
+   
+              expect(this.post.userId).toBe(newUser.id);
+              done();
+   
+            });
+          })
+        });
+   
+      });
+   
+      describe("#getUser()", () => {
+   
+        it("should return the associated topic", (done) => {
+   
+          this.post.getUser()
+          .then((associatedUser) => {
+            expect(associatedUser.email).toBe("starman@tesla.com");
+            done();
+          });
+   
+        });
+      });
 });

@@ -27,7 +27,7 @@ describe("Post", () => {
    
  
               posts: [{
-                title: "My first visit to Proxima Centauri b",
+                title: "My favorite jellyfish",
                 body: "I saw some rocks.",
                 userId: this.user.id
               }]
@@ -103,6 +103,7 @@ describe("Post", () => {
                     title: "My favorite jellyfish",
                     body: "My favorite jellyfish is the immortal jellyfish, Turritopsis dohrnii!",
                     topicId: this.topic.id,
+                    userId: this.user.id
                 })
                 .then((post) => {
                     this.topic.getPosts()
