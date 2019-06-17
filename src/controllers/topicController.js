@@ -27,45 +27,40 @@ module.exports = {
 
           create(req, res, next){
 
-
-                const authorized = new Authorizer(req.user).create();
-           
-
-                if(authorized) {
-                  let newTopic = {
-                    title: req.body.title,
-                    description: req.body.description
-                  };
-                  topicQueries.addTopic(newTopic, (err, topic) => {
-                    if(err){
-                      res.redirect(500, "topics/new");
-                    } else {
-                      res.redirect(303, `/topics/${topic.id}`);
-                    }
-                  });
+            const authorized = new Authorizer(req.user).create();
+       
+            if(authorized) {
+              let newTopic = {
+                title: req.body.title,
+                description: req.body.description
+              };
+              topicQueries.addTopic(newTopic, (err, topic) => {
+                if(err){
+                  res.redirect(500, "topics/new");
                 } else {
-           
-
-                  req.flash("notice", "You are not authorized to do that.");
-                  res.redirect("/topics");
+                  res.redirect(303, `/topics/${topic.id}`);
                 }
-              },
-
-    show(req, res, next){
-
-        topicQueries.getTopic(req.params.id, (err, topic) => {
-            
-            if(err || topic == null){
-                res.redirect(404, "/");
+              });
             } else {
-                res.render("topics/show", {topic});
+       
+              req.flash("notice", "You are not authorized to do that.");
+              res.redirect("/topics");
             }
-        });
-    },
+          },
 
-    destroy(req, res, next){
+          show(req, res, next){
+      
+            topicQueries.getTopic(req.params.id, (err, topic) => {
+              if(err || topic == null){
+                res.redirect(404, "/");
+              } else {
+                res.render("topics/show", {topic});
+              }
+            });
+          },
 
-        // #1
+          destroy(req, res, next){
+      
             topicQueries.deleteTopic(req, (err, topic) => {
               if(err){
                 res.redirect(err, `/topics/${req.params.id}`)
@@ -75,18 +70,15 @@ module.exports = {
             });
           },
 
-    edit(req, res, next){
+          edit(req, res, next){
 
-  
             topicQueries.getTopic(req.params.id, (err, topic) => {
               if(err || topic == null){
                 res.redirect(404, "/");
               } else {
        
-      
                 const authorized = new Authorizer(req.user, topic).edit();
        
-   
                 if(authorized){
                   res.render("topics/edit", {topic});
                 } else {
@@ -96,15 +88,15 @@ module.exports = {
               }
             });
           },
+          
           update(req, res, next){
 
-            // #1
-                topicQueries.updateTopic(req, req.body, (err, topic) => {
-                  if(err || topic == null){
-                    res.redirect(401, `/topics/${req.params.id}/edit`);
-                  } else {
-                    res.redirect(`/topics/${req.params.id}`);
-                  }
-                });
+            topicQueries.updateTopic(req, req.body, (err, topic) => {
+              if(err || topic == null){
+                res.redirect(401, `/topics/${req.params.id}/edit`);
+              } else {
+                res.redirect(`/topics/${req.params.id}`);
               }
+            });
+          }
 }
