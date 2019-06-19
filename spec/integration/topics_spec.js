@@ -30,27 +30,26 @@ describe("routes : topics", () => {
   });
 
   describe("admin user performing CRUD actions for Topic", () => {
-
-    beforeEach((done) => {
-      User.create({
-        email: "admin@example.com",
-        password: "123456",
-        role: "admin"
-      })
-      .then((user) => {
-        request.get({         // mock authentication
-          url: "http://localhost:3000/auth/fake",
-          form: {
-            role: user.role,     // mock authenticate as admin user
-            userId: user.id,
-            email: user.email
-          }
-        },
-          (err, res, body) => {
-            done();
-          }
-        );
-      });
+    beforeEach(done => {
+        User.create({
+            email: "admin@example.com",
+            password: "123456",
+            role: "admin"
+        }).then(user => {
+            request.get(
+                {
+                    url: "http://localhost:3000/auth/fake",
+                    form: {
+                        role: user.role,
+                        userId: user.id,
+                        email: user.email
+                    }
+                },
+                (err, res, body) => {
+                    done();
+                }
+            );
+        });
     });
 
     //BEGIN ADMIN TESTS
@@ -105,33 +104,6 @@ describe("routes : topics", () => {
           }
         );
       });
-  
-      it("should not create a new topic that fails validations", (done) => {
-        const options = {
-          url: `${base}/topics/create`,
-          form: {
-  
-            title: "a",
-            descriptiopn: "b"
-          }
-        };
-  
-        request.post(options,
-          (err, res, body) => {
-  
-            Topic.findOne({where: {title: "a"}})
-            .then((topic) => {
-                expect(topic).toBeNull();
-                done();
-            })
-            .catch((err) => {
-              console.log(err);
-              done();
-            });
-          }
-        );
-      });
-  
     });
     
     describe("GET /topics/:id", () => {
@@ -207,6 +179,7 @@ describe("routes : topics", () => {
       });
   
     });
+  });
 
     //END ADMIN TESTS
 
@@ -355,7 +328,5 @@ describe("routes : topics", () => {
     });
   });
 });
-});
 //END MEMBER TESTS
-
 });

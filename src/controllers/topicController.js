@@ -15,24 +15,32 @@ module.exports = {
     },
 
     new(req, res, next){
+
             const authorized = new Authorizer(req.user).new();
+
+           
        
             if(authorized) {
+            
               res.render("topics/new");
             } else {
+            
               req.flash("notice", "You are not authorized to do that.");
               res.redirect("/topics");
             }
           },
 
           create(req, res, next){
+            
 
             const authorized = new Authorizer(req.user).create();
        
             if(authorized) {
+        
               let newTopic = {
                 title: req.body.title,
-                description: req.body.description
+                description: req.body.description,
+                userId: req.user.id
               };
               topicQueries.addTopic(newTopic, (err, topic) => {
                 if(err){
@@ -42,7 +50,7 @@ module.exports = {
                 }
               });
             } else {
-       
+
               req.flash("notice", "You are not authorized to do that.");
               res.redirect("/topics");
             }
@@ -88,7 +96,7 @@ module.exports = {
               }
             });
           },
-          
+
           update(req, res, next){
 
             topicQueries.updateTopic(req, req.body, (err, topic) => {
