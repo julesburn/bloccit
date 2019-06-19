@@ -28,29 +28,30 @@ describe("routes : topics", () => {
     });
   });
 
-  describe("admin user performin CRUD actions for Topic", () => {
-
-    beforeEach((done) => {
-      User.create({
-        email: "admin@example.com",
-        password: "123456",
-        role: "admin"
-      })
-      .then((user) => {
-        request.get({         // mock authentication
-          url: "http://localhost:3000/auth/fake",
-          form: {
-            role: user.role,     // mock authenticate as admin user
-            userId: user.id,
-            email: user.email
-          }
-        },
-          (err, res, body) => {
-            done();
-          }
-        );
-      });
+  describe("admin user performing CRUD actions for Topic", () => {
+    beforeEach(done => {
+        User.create({
+            email: "admin@example.com",
+            password: "123456",
+            role: "admin"
+        }).then(user => {
+            request.get(
+                {
+                    url: "http://localhost:3000/auth/fake",
+                    form: {
+                        role: user.role,
+                        userId: user.id,
+                        email: user.email
+                    }
+                },
+                (err, res, body) => {
+                    done();
+                }
+            );
+        });
     });
+
+    //BEGIN ADMIN TESTS
 
     describe("GET /topics", () => {
 
@@ -74,19 +75,6 @@ describe("routes : topics", () => {
         });
       });
     });
-
-    describe("GET /topics/new", () => {
-
-      it("should render a view with a new topic form", (done) => {
-        request.get(`${base}new`, (err, res, body) => {
-          expect(err).toBeNull();
-          expect(body).toContain("New Topic");
-          done();
-        });
-      });
-
-    });
-
   
     describe("POST /topics/create", () => {
       const options = {
@@ -115,33 +103,6 @@ describe("routes : topics", () => {
           }
         );
       });
-  
-      it("should not create a new topic that fails validations", (done) => {
-        const options = {
-          url: `${base}/topics/create`,
-          form: {
-  
-            title: "a",
-            descriptiopn: "b"
-          }
-        };
-  
-        request.post(options,
-          (err, res, body) => {
-  
-            Topic.findOne({where: {title: "a"}})
-            .then((topic) => {
-                expect(topic).toBeNull();
-                done();
-            })
-            .catch((err) => {
-              console.log(err);
-              done();
-            });
-          }
-        );
-      });
-  
     });
     
     describe("GET /topics/:id", () => {
@@ -215,24 +176,30 @@ describe("routes : topics", () => {
             });
           });
       });
+  
     });
+  });
 
-  }); //end context for admin user
+    //END ADMIN TESTS
 
-  describe("member user performing CRUD actions for Topic", () => {
+    //MEMBER CONTEXT
 
-    beforeEach((done) => {
-      request.get({
-        url: "http://localhost:3000/auth/fake",
-        form: {
-          role: "member"
-        }
-      },
-        (err, res, body) => {
-          done();
-        }
-      );
-    });
+    describe("member user performing CRUD actions for Topic", () => {
+      
+          beforeEach((done) => {
+            request.get({
+              url: "http://localhost:3000/auth/fake",
+              form: {
+                role: "member"
+              }
+            },
+              (err, res, body) => {
+                done();
+              }
+            );
+          });
+
+  //BEGIN MEMBER TESTS
 
   describe("GET /topics", () => {
 
@@ -297,6 +264,8 @@ describe("routes : topics", () => {
   describe("GET /topics/:id", () => {
 
     it("should render a view with the selected topic", (done) => {
+      // variables defined outside, like `this.topic` are only available
+      // inside `it` blocks.
       request.get(`${base}${this.topic.id}`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("JS Frameworks");
@@ -322,9 +291,11 @@ describe("routes : topics", () => {
             expect(topics.length).toBe(topicCountBeforeDelete);
             done();
           })
+
         });
       })
     });
+
   });
 
   describe("GET /topics/:id/edit", () => {
@@ -338,6 +309,7 @@ describe("routes : topics", () => {
         done();
       });
     });
+
   });
 
   describe("POST /topics/:id/update", () => {
@@ -360,9 +332,10 @@ describe("routes : topics", () => {
         .then((topic) => {
           expect(topic.title).toBe("JS Frameworks"); // confirm title is unchanged
           done();
-          });
         });
       });
     });
   });
+});
+//END MEMBER TESTS
 });

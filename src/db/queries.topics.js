@@ -1,40 +1,39 @@
 const Topic = require("./models").Topic;
 const Post = require("./models").Post;
+const Authorizer = require("../policies/topic");
 
 module.exports = {
 
-    getAllTopics(callback){
-        return Topic.all()
-
+  getAllTopics(callback){
+    return Topic.all()
 
     .then((topics) => {
-        callback(null, topics);
+      callback(null, topics);
     })
     .catch((err) => {
-        callback(err);
+      callback(err);
     })
-    },
-    
-    addTopic(newTopic, callback){
-        return Topic.create({
-          title: newTopic.title,
-          description: newTopic.description
-        })
-        .then((topic) => {
-          callback(null, topic);
-        })
-        .catch((err) => {
-          callback(err);
-        })
-      }, 
+  },
 
-    getTopic(id, callback){
-      return Topic.findById(id, {
-        
-        include: [{
-          model: Post,
-          as: "posts"
-        }]
+  getTopic(id, callback){
+     return Topic.findById(id, {
+	include: [{
+        model: Post,
+        as: "posts"
+      }]
+    })
+     .then((topic) => {
+       callback(null, topic);
+     })
+     .catch((err) => {
+       callback(err);
+     })
+   },
+
+  addTopic(newTopic, callback){
+      return Topic.create({
+        title: newTopic.title,
+        description: newTopic.description
       })
       .then((topic) => {
         callback(null, topic);
@@ -42,64 +41,62 @@ module.exports = {
       .catch((err) => {
         callback(err);
       })
-    },
+  },
 
-    deleteTopic(req, callback){
+  deleteTopic(req, callback){
 
- 
-          return Topic.findById(req.params.id)
-          .then((topic) => {
-     
+    return Topic.findById(req.params.id)
+    .then((topic) => {
 
-            const authorized = new Authorizer(req.user, topic).destroy();
-     
-            if(authorized) {
- 
-              topic.destroy()
-              .then((res) => {
-                callback(null, topic);
-              });
-              
-            } else {
-     
+      const authorized = new Authorizer(req.user, topic).destroy();
 
-              req.flash("notice", "You are not authorized to do that.")
-              callback(401);
-            }
-          })
-          .catch((err) => {
-            callback(err);
-          });
-        },
+      if(authorized) {
+        topic.destroy()
+        .then((res) => {
+          callback(null, topic);
+        });
+        
+      } else {
 
-        updateTopic(req, updatedTopic, callback){
-         
-               return Topic.findById(req.params.id)
-               .then((topic) => {
+        req.flash("notice", "You are not authorized to do that.")
+        callback(401);
+      }
+    })
+    .catch((err) => {
+      callback(err);
+    });
+  },
 
-         
-                 if(!topic){
-                   return callback("Topic not found");
-                 }
-          
-                 const authorized = new Authorizer(req.user, topic).update();
-          
-                 if(authorized) {
-          
-                   topic.update(updatedTopic, {
-                     fields: Object.keys(updatedTopic)
-                   })
-                   .then(() => {
-                     callback(null, topic);
-                   })
-                   .catch((err) => {
-                     callback(err);
-                   });
-                 } else {
-          
-                   req.flash("notice", "You are not authorized to do that.");
-                   callback("Forbidden");
-                 }
-               });
-             }
-}
+  updateTopic(req, updatedTopic, callback){
+
+         return Topic.findById(req.params.id)
+         .then((topic) => {
+    
+
+           if(!topic){
+             return callback("Topic not found");
+           }
+
+           const authorized = new Authorizer(req.user, topic).update();
+    
+           if(authorized) {
+    
+
+             topic.update(updatedTopic, {
+               fields: Object.keys(updatedTopic)
+             })
+             .then(() => {
+               callback(null, topic);
+             })
+             .catch((err) => {
+               callback(err);
+             });
+           } else {
+    
+
+             req.flash("notice", "You are not authorized to do that.");
+             callback("Forbidden");
+           }
+         });
+       }
+};

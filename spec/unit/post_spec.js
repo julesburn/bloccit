@@ -44,12 +44,12 @@ describe("Post", () => {
 
     describe("#create()", () => {
 
-        it("should create a post object with a title, body, assigned topic, and user", (done) => {
+        it("should create a post object with a title, body, and assigned topic and user", (done) => {
 
             Post.create({
                 title: "Pros of Cryosleep during the long journey",
                 body: "1. Not having to answer the 'are we there yet?' question.",
-                topicId: this.topic.id, 
+                topicId: this.topic.id,
                 userId: this.user.id
             })
             .then((post) => {
@@ -153,6 +153,5 @@ describe("Post", () => {
           });
    
         });
-   
       });
 });

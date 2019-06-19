@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
 
   var Post = sequelize.define('Post', {
@@ -14,17 +15,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    }
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
   }, {});
   Post.associate = function(models) {
     Post.belongsTo(models.Topic, {
       foreignKey: "topicId",
       onDelete: "CASCADE"
     });
-
     Post.belongsTo(models.User, {
       foreignKey: "userId",
       onDelete: "CASCADE"

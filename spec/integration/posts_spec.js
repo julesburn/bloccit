@@ -6,6 +6,7 @@ const User = require("../../src/db/models").User;
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
+const User = require("../../src/db/models").User;
 
 describe("routes : posts", () => {
 
@@ -45,7 +46,7 @@ describe("routes : posts", () => {
     });
 
   });
-
+  
   describe("GET /topics/:topicId/posts/new", () => {
 
     it("should render a new post form", (done) => {

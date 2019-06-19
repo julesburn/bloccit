@@ -12,7 +12,7 @@ describe("Post", () => {
    
         sequelize.sync({force: true}).then((res) => {
    
-
+   
           User.create({
             email: "starman@tesla.com",
             password: "Trekkie4lyfe"
@@ -20,15 +20,15 @@ describe("Post", () => {
           .then((user) => {
             this.user = user; //store the user
    
-
+  
             Topic.create({
-              title: "Tired of talking about space? Let's talk about jellyfish",
-              description: "Let's talk baout jellyfish!",
+              title: "Expeditions to Alpha Centauri",
+              description: "A compilation of reports from recent visits to the star system.",
    
-
+ 
               posts: [{
                 title: "My favorite jellyfish",
-                body: "My faovirite jellyfish is the immortal jellyfish!",
+                body: "I saw some rocks.",
                 userId: this.user.id
               }]
             }, {
