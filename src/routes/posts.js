@@ -4,7 +4,6 @@ const helper = require("../auth/helpers");
 
 const postController = require("../controllers/postController")
 const validation = require("./validation");
-const helper = require("../auth/helpers");
 
 module.exports = router;
 
