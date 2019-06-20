@@ -155,7 +155,7 @@ describe("GET /topics/:topicId/posts/:id/edit", () => {
       });
     });
 
-    it("should update the post with the given values", (done) => {
+    it("should not update the post with the given values", (done) => {
         const options = {
           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
           form: {
@@ -172,7 +172,7 @@ describe("GET /topics/:topicId/posts/:id/edit", () => {
             where: {id: this.post.id}
           })
           .then((post) => {
-            expect(post.title).toBe("Snowman Building Competition");
+            expect(post.title).toBe("Snowball Fighting");
             done();
           });
         });
@@ -336,7 +336,7 @@ describe("GET /topics/:topicId/posts/:id/edit", () => {
           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
           form: {
             title: "Snowman Building Competition",
-            body: "I really enjoy the funny hates on them."
+            body: "I really enjoy the funny hats on them."
           }
         };
         request.post(options,
