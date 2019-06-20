@@ -17,6 +17,7 @@ router.post("/topics/:topicId/posts/create",
 helper.ensureAuthenticated,
 validation.validatePosts,
 postController.create);
+
 router.post("/topics/:topicId/posts/:id/destroy", postController.destroy);
 
 router.post("/topics/:topicId/posts/:id/update", validation.validatePosts, postController.update);
