@@ -67,23 +67,22 @@ module.exports ={
           } else {
             const authorized = new Authorizer(req.user, post).edit();
             if(authorized){
-              res.render("posts/edit", {post});
-            } else {
-              req.flash("notice", "You are not authorized to do that.")
-              res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`)
-            }
+            res.render("posts/edit", {post});
+          } else {
+            req.flash("notice", "You are not authorized to do that.");
+            res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`)
+          }
+        }
+      });
+    },
+
+      update(req, res, next){
+        postQueries.updatePost(req, req.body, (err, post) => {
+          if(err || post == null){
+            res.redirect(404, `/topics/${req.params.topicId}/posts/${req.params.id}/edit`);
+          } else {
+            res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
           }
         });
-      },
-   
-     update(req, res, next) {
-       postQueries.updatePost(req, req.body, (err, post) => {
-         if(err || post == null){
-           res.redirect(404, `/topics/${req.params.topicId}/posts/${req.params.id}/edit`);
-         } else {
-           res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
-         }
-       });
-     }
-   
-   }
+      }
+}
