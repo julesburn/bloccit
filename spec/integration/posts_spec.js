@@ -58,7 +58,7 @@ describe("routes : posts", () => {
                 }
             );
         });
-    });
+
 
   //BEGIN GUEST TESTS
 
@@ -183,6 +183,33 @@ describe("admin user performing CRUD actions for Topic", () => {
 
   beforeEach((done) => {
     User.create({
+      email: "member@example.com",
+      password: "123456",
+      role: "member"
+    })
+    .then((user) => {
+      request.get({         // mock authentication
+        url: "http://localhost:3000/auth/fake",
+        form: {
+          role: user.role,     // mock authenticate as admin user
+          userId: user.id,
+          email: user.email
+        }
+      },
+        (err, res, body) => {
+          done();
+        }
+      );
+    });
+  });
+});
+
+//Define admin/owner context
+
+describe("admin user performing CRUD actions for Topic", () => {
+
+  beforeEach((done) => {
+    User.create({
       email: "admin@example.com",
       password: "123456",
       role: "admin"
@@ -202,8 +229,9 @@ describe("admin user performing CRUD actions for Topic", () => {
       );
     });
   });
+});
 
-  //BEGIN MEMBER TESTS
+  //BEGIN ADMIN/OWNER TESTS
 
 describe("GET /topics/:topicId/posts/new", () => {
   it("should render a new post form", (done) => {
