@@ -29,13 +29,11 @@ module.exports = {
      .then((post) => {
        const authorized = new Authorizer(req.user, post).destroy();
        if(authorized) {
-        console.log("DEBUG: USER IS AUTHORIZED")
          post.destroy()
          .then((res) => {
            callback(null, post);
          });
        } else {
-        console.log("DEBUG: USER IS NOT AUTHORIZED")
          req.flash("notice", "You are not authorized to do that.");
          callback(401);
        }
@@ -53,7 +51,7 @@ module.exports = {
       }
       const authorized = new Authorizer(req.user, post).update();
       if(authorized) {
-        console.log("DEBUG: USER IS AUTHORIZED")
+
         post.update(updatedPost, {
           fields: Object.keys(updatedPost)
         })
@@ -64,7 +62,7 @@ module.exports = {
           callback(err);
         });
       } else {
-        console.log("DEBUG: USER IS NOT AUTHORIZED")
+        
         req.flash("notice", "You are not authorized to do that.");
         callback("Forbidden");
       }
