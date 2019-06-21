@@ -20,7 +20,7 @@ module.exports ={
         
         const authorized = new Authorizer(req.user).create();
         if(authorized) {
-          console.log("DEBUG: USER AUTHORIZED")
+    
           let newPost= {
             title: req.body.title,
             body: req.body.body,
@@ -35,7 +35,6 @@ module.exports ={
             }
           });
         } else {
-          console.log("DEBUG: USER NOT AUTHORIZED")
             req.flash("notice", "You are not authorized to do that.");
             res.redirect("/posts");
         }
@@ -52,9 +51,9 @@ module.exports ={
     },
 
     destroy(req, res, next){
-        postQueries.deletePost(req.params.id, (err, deletedRecordsCount) => {
+        postQueries.deletePost(req, (err, post) => {
           if(err){
-            res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`)
+            res.redirect(303, `/topics/${req.params.topicId}/posts/${req.params.id}`)
           } else {
             res.redirect(303, `/topics/${req.params.topicId}`)
           }
