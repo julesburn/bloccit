@@ -203,7 +203,7 @@ describe("member user performing CRUD actions for Topic", () => {
     });
   });
 
-  //BEGIN MEMBER TESTS
+//BEGIN MEMBER TESTS
 
 describe("GET /topics/:topicId/posts/new", () => {
   it("should render a new post form", (done) => {
@@ -340,7 +340,7 @@ describe("POST /topics/:topicId/posts/:id/update", () => {
 });
   //END MEMBER TESTS
 
-  //Define admin user context
+  //Define admin/owner user context
 
   describe("admin user performing CRUD actions for Topic", () => {
 
@@ -366,7 +366,7 @@ describe("POST /topics/:topicId/posts/:id/update", () => {
       });
     });
 
-//BEGIN ADMIN TESTS
+//BEGIN ADMIN/OWNER TESTS
 
 describe("GET /topics/:topicId/posts/new", () => {
   it("should render a new post form", (done) => {
@@ -478,5 +478,11 @@ describe("POST /topics/:topicId/posts/:id/update", () => {
   });
 });
 });
+<<<<<<< HEAD
   //END ADMIN TESTS
 });
+=======
+  //END ADMIN/OWNER TESTS
+});
+
+>>>>>>> Assignment-12-Redo
