@@ -58,7 +58,7 @@ describe("routes : posts", () => {
                 }
             );
         });
-
+    });
 
   //BEGIN GUEST TESTS
 
@@ -202,7 +202,6 @@ describe("member user performing CRUD actions for Topic", () => {
       );
     });
   });
-});
 
   //BEGIN MEMBER TESTS
 
@@ -481,4 +480,3 @@ describe("POST /topics/:topicId/posts/:id/update", () => {
 });
   //END ADMIN TESTS
 });
-
