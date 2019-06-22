@@ -1,23 +1,20 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
- 
-      return queryInterface.addColumn(
-        "Users",
-        "role",
-        {
-          type: Sequelize.STRING,
-          allowNull: false,
-  
+    return queryInterface.addColumn(
+      "Users",
+      "role",
+      {
+        type: Sequelize.STRING,
+        allowNull: false,
 
-          defaultValue: "member"
-        }
-      );
-    },
+        defaultValue: "member"
+      }
+    );
+  },
 
   down: (queryInterface, Sequelize) => {
-    
     return queryInterface.removeColumn("Users", "role");
   }
 };

@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   }, {});
   Post.associate = function(models) {
+
     Post.belongsTo(models.Topic, {
       foreignKey: "topicId",
       onDelete: "CASCADE"
@@ -28,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
     Post.belongsTo(models.User, {
       foreignKey: "userId",
       onDelete: "CASCADE"
+    });
+    Post.hasMany(models.Comment, {
+      foreignKey: "postId",
+      as: "comments"
     });
   };
   return Post;
