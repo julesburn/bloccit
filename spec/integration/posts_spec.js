@@ -478,11 +478,4 @@ describe("POST /topics/:topicId/posts/:id/update", () => {
   });
 });
 });
-<<<<<<< HEAD
-  //END ADMIN TESTS
 });
-=======
-  //END ADMIN/OWNER TESTS
-});
-
->>>>>>> Assignment-12-Redo
