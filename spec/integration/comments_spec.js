@@ -177,6 +177,7 @@ describe("routes : comments", () => {
                 });
               });
 
+              //Delete own comment
               describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
 
                 it("should delete the comment with the associated ID", (done) => {
@@ -203,8 +204,107 @@ describe("routes : comments", () => {
                 });
          
               });
+
+              //Delete another's comment
+
+              describe("signed in user performing CRUD actions on another users comment", () => {
+
+                describe("POST /topics/:topicId/posts/:postId/comments/create", () =>  {
+                  beforeEach((done) => {
+                    request.get({
+                      url: "http://localhost:3000/auth/fake",
+                      form: {
+                        role: "member",
+                        userId: this.user.id
+                      }
+                    }, (err, res, body) => {
+                      done();
+                    }
+                  );
+                  });
+                  it("should create a new comment and redirect", (done) => {
+                    const options = {
+                      url: `${base}${this.topic.id}/posts/${this.post.id}/comments/create`,
+                      form: {
+                        body: "This is someone else's comment"
+                      }
+                    };
+                    request.post(options, 
+                    (err, res, body) => {
+                      Comment.findOne({where: {body: "This is someone else's comment"}})
+                      .then((comment) => {
+                        expect(comment).not.toBeNull();
+                        expect(comment.body).toBe("This is someone else's comment");
+                        expect(comment.id).not.toBeNull();
+                        done();
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                    }
+                  );
+                  });
+                });
+              });
          
             }); //end context for signed in user
+
+  //Define admin/owner user context
+
+
+  describe("admin user performing CRUD actions for Comment", () => {
+
+    beforeEach((done) => {
+      User.create({
+        email: "admin@example.com",
+        password: "123456",
+        role: "admin"
+      })
+      .then((user) => {
+        request.get({         // mock authentication
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            role: user.role,     // mock authenticate as admin user
+            userId: user.id,
+            email: user.email
+          }
+        },
+          (err, res, body) => {
+            done();
+          }
+        );
+      });
+    });
+
+
+            //Delete comment of any user
+            describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
+
+              it("should delete the comment with the associated ID", (done) => {
+                Comment.findAll()
+                .then((comments) => {
+                  const commentCountBeforeDelete = comments.length;
+       
+                  expect(commentCountBeforeDelete).toBe(1);
+       
+                  request.post(
+                   `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+                    (err, res, body) => {
+                    expect(res.statusCode).toBe(302);
+                    Comment.findAll()
+                    .then((comments) => {
+                      expect(err).toBeNull();
+                      expect(comments.length).toBe(commentCountBeforeDelete - 1);
+                      done();
+                    })
+       
+                  });
+                })
+       
+              });
+       
+            });
+          });
          
 
 
