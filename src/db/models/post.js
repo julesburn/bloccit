@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
     }
    }, {});
+
    Post.associate = function(models) {
      Post.belongsTo(models.Topic, {
        foreignKey: "topicId",
@@ -35,7 +36,6 @@ module.exports = (sequelize, DataTypes) => {
        foreignKey: "postId",
        as: "votes"
      });
-  };
 
   Post.prototype.getPoints = function() {
 
@@ -57,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
       Post.prototype.hasDownvoteFor = function(userId){
         if(this.votes.userId == userId && this.votes.value === -1) return true
       };
+    };
 
   return Post;
 };
