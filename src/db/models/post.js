@@ -38,10 +38,10 @@ module.exports = (sequelize, DataTypes) => {
        as: "votes"
      });
 
-  Post.prototype.getPoints = function() {
+  Post.prototype.getPoints = function(votes) {
 
  // #1
- if(this.votes && this.votes.length === 0) return 0
+ if(this.votes.length === 0) return 0
 
  // #2
      return this.votes
@@ -49,6 +49,8 @@ module.exports = (sequelize, DataTypes) => {
        .reduce((prev, next) => { return prev + next });
    };
   };
+
+
 
       Post.prototype.hasUpvoteFor = function(userId){
         if(this.votes.userId == userId && this.votes.value === 1) return true

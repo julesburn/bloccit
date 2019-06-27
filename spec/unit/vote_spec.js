@@ -291,15 +291,21 @@ describe("Vote", () => {
        })
 
        .then((votes) => {
-        this.post.votes = votes
-          let points = this.post.getPoints();
-          expect(points).toBe(1);
-          done();
-       })
+
+       this.post.getVotes().then(votes => {
+        this.post.votes = votes;
+        let points = this.post.getPoints();
+        expect(points).toBe(1);
+        done();
+      })
+
+
+
        .catch((err) => {
           console.log(err);
           done();
        });
+      });
      });
    });
 
