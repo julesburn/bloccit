@@ -1,7 +1,9 @@
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
+const Comment = require("../../src/db/models").Comment;
 const User = require("../../src/db/models").User;
+const Vote = require("../../src/db/models").Vote;
 
 describe("Post", () => {
 
@@ -154,4 +156,80 @@ describe("Post", () => {
    
         });
       });
+
+      //Votes on posts
+      
+  describe("#getPoints()", () => {
+        
+    it("should return a count of all the votes a post has", (done) => {
+
+        Vote.create({
+          value: 1,
+          userId: this.user.id,
+          postId: this.post.id
+       })
+
+       Vote.create({
+        value: 1,
+        userId: this.user.id,
+        postId: this.post.id
+     })
+
+       .then((votes) => {
+
+        this.post.getVotes().then(votes => {
+        this.post.votes = votes;
+        let points = this.post.getPoints();
+        expect(points).toBe(2);
+        done();
+      })
+
+
+
+       .catch((err) => {
+          console.log(err);
+          done();
+       });
+      });
+     });
+   });
+
+
+      describe("#hasUpvoteFor()", () => {
+        it("should return true if the associated user has an upvote", (done) => {
+          Vote.create({
+            value: 1,
+            userId: this.user.id,
+            postId: this.post.id
+          })
+          .then((vote) => {
+            this.post.votes = vote;
+          expect(this.post.hasUpvoteFor(vote.userId)).toBe(true);
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        });
+    });
+  });
+
+      describe("#hasDownvoteFor()", () => {
+        it("should return true if the associated user has a downvote", (done) => {
+          Vote.create({
+            value: -1,
+            userId: this.user.id,
+            postId: this.post.id
+          })
+          .then((vote) => {
+            this.post.votes = vote;
+            expect(this.post.hasDownvoteFor(vote.userId)).toBe(true);
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        });
+    });
+  });
 });
