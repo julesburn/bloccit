@@ -1,5 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
+  
   var Vote = sequelize.define('Vote', {
     value: {
      type: DataTypes.INTEGER,
@@ -18,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Vote.associate = function(models) {
-    // associations can be defined here
+
     Vote.belongsTo(models.Post, {
       foreignKey: "postId",
       onDelete: "CASCADE"

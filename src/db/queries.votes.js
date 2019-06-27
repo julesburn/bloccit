@@ -3,9 +3,11 @@
  const Post = require("./models").Post;
  const User = require("./models").User;
  const Vote = require("./models").Vote;
-  
+ 
  module.exports = {
    createVote(req, val, callback){
+
+
  
   // #2
      return Vote.findOne({
@@ -18,6 +20,8 @@
  
   // #3
        if(vote){
+
+
          vote.value = val;
          vote.save()
          .then((vote) => {
@@ -27,6 +31,8 @@
            callback(err);
          });
        } else {
+
+
  
   // #4
          Vote.create({
